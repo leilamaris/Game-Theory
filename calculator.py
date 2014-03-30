@@ -2,20 +2,41 @@ from tkinter import *
 win = Tk()
 win.title('Calculator')
 
-def beenClicked():
-    l.configure(text=Button(win)) #this doesn't work yet, want it to show any button depending on which was clicked
+# Will hold the display of the calculator
+textbox = StringVar()
+textbox.set("")
+
+def buttonClicked(event):
+    button = event.widget
+    value = button.cget("text") # cget recognizes the text of the button!
+    textbox.set(value)
 
 
+""" #this is the long form of the below array, if we have to resort to it
 b1 = Button(win, text="1")
+b1.pack()
+b1.bind("<Button-1>", buttonClicked)
+
 b2 = Button(win, text="2")
-b3 = Button(win, text="3")
-b4 = Button(win, text="4")
-b5 = Button(win, text="5")
-b6 = Button(win, text="6")
-b7 = Button(win, text="7")
-b8 = Button(win, text="8")
-b9 = Button(win, text="9")
-b0 = Button(win, text="0")
+b2.pack()
+b2.bind("<Button-1>", buttonClicked)
+"""
+
+buttons = []  # holds all buttons
+for buttonNum in range(0,10):
+    # creates a new button with that number
+    button = Button(win, text=str(buttonNum))
+    button.pack()
+    button.bind("<Button-1>", buttonClicked)
+    # binds function to event
+    buttons.append(button)
+    button.grid(row=buttonNum % 4, column=buttonNum % 3) # still trying to fiddle with rows and columns in an array
+
+# need to handle the non-numeric buttons
+# how to loop over some characters instead of numbers?
+
+
+"""
 bdiv = Button(win, text="/")
 bmul = Button(win, text="*")
 badd = Button(win, text="+")
@@ -38,30 +59,9 @@ badd.grid(row=4, column=4)
 bsub.grid(row=3, column=4)
 bequ.grid(row=4, column=3)
 bclr.grid(row=4, column=2)
-l = Label(win, text="")
+"""
+l = Label(win, textvariable=textbox)
 l.grid(row=0, column=2)
-
-textbox = StringVar()
-textbox.set(None)
-
-
-b1.configure(command=beenClicked)
-b2.configure(command=beenClicked)
-b3.configure(command=beenClicked)
-b4.configure(command=beenClicked)
-b5.configure(command=beenClicked)
-b6.configure(command=beenClicked)
-b8.configure(command=beenClicked)
-b7.configure(command=beenClicked)
-b9.configure(command=beenClicked)
-b0.configure(command=beenClicked)
-bdiv.configure(command=beenClicked)
-bmul.configure(command=beenClicked)
-badd.configure(command=beenClicked)
-bsub.configure(command=beenClicked)
-bequ.configure(command=beenClicked)
-bclr.configure(command=beenClicked)
-
 
 win.mainloop()
 
